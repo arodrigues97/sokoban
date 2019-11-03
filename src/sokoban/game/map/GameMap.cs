@@ -40,7 +40,7 @@ namespace Sokoban_Assignment.src.sokoban.game {
             Map = new MapLocation[rows, columns];
             for (int row = 0; row < rows; row++) {
                 for (int col = 0; col < columns; col++) {
-                    Map[row, col] = new MapLocation(new Rectangle(row * RectSize, col * RectSize, RectSize, RectSize));
+                    Map[row, col] = new MapLocation(row, col, new Rectangle(row * RectSize, col * RectSize, RectSize, RectSize));
                 }
             }
         }
@@ -93,6 +93,123 @@ namespace Sokoban_Assignment.src.sokoban.game {
         /// <param name="mapLocation">The map location clicked.</param>
         private void HandlePlayClick(MapLocation mapLocation) {
             //TODO: Play Click.
+        }
+
+        public void HandleMoveClick(Direction direction) {
+            Hero hero = SokobanProgram.GetGameManager().GetHero();
+            if (hero == null) {
+                return;
+            }
+            MapLocation location = hero.GetLocation();
+            hero.SetDirection(direction);
+            MapLocation moveSpot = GetNextMoveSpot(location, direction);
+            if (moveSpot == null) {
+                return;
+            }
+            bool checkWinning = false;
+            if (moveSpot.HasEntitys()) {
+                Entity entity;
+                for (int i = 0; i < moveSpot.GetEntitys().Count; i++)  {
+                    entity = moveSpot.GetEntitys()[i];
+                    if (entity.GetEntityType() == EntityType.BOX)  {
+                        MapLocation boxMoveSpot = GetNextMoveSpot(entity.GetLocation(), direction);
+                        if (boxMoveSpot == null)  {
+                            return;
+                        }
+                        //Box attempting to move to a spot with entites.
+                        if (boxMoveSpot.HasEntitys())  {
+                            Entity e;
+                            for (int k = 0; k < boxMoveSpot.GetEntitys().Count; k++)  {
+                                e = boxMoveSpot.GetEntitys()[k];
+                                if (e.GetEntityType() != EntityType.DESTINATION) {
+                                    return;
+                                }
+                                if (e.GetEntityType() == EntityType.DESTINATION)  {
+                                    ((Box) entity).SetColor(BoxColor.BLUE);
+                                    checkWinning = true;
+                                    break;
+                                }
+                            }
+                        } else  {
+                            //Box moving off destination
+                            if (entity .GetEntityType() == EntityType.BOX) {
+                                ((Box)entity).SetColor(BoxColor.RED);
+                            }
+                        }
+                        entity.GetLocation().RemoveEntity(entity);
+                        boxMoveSpot.AddEntity(entity);
+                        hero.IncrementBoxesPushed();
+                        break;
+                    }
+                    if (entity.GetEntityType() != EntityType.DESTINATION) {
+                        return;
+                    }
+                }
+            }
+            location.RemoveEntity(hero);
+            moveSpot.AddEntity(hero);
+            hero.IncrementMoves();
+            if (checkWinning) {
+                CheckGameWinning();
+            }
+        }
+
+        private void CheckGameWinning() {
+            int destinations = 0;
+            int boxes = 0;
+            for (int row = 0; row < GetRowLength(); row++) {
+                for (int col = 0; col < GetColumnLength(); col++) {
+                    foreach (Entity entity in Map[row, col].GetEntitys()) {
+                        if (entity is Box) {
+                            boxes++;
+                        }
+                        if (entity is Destination) {
+                            destinations++;
+                            if (!Map[row, col].HasEntityType(EntityType.BOX)) {
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            if (destinations == boxes)  {
+                MessageBox.Show("Congratulations, you have completed this map. Total moves: " + SokobanProgram.GetGameManager().GetHero().GetMoves() + ". Total  Boxes Pushed: " + SokobanProgram.GetGameManager().GetHero().GetBoxesPushed());
+                SokobanProgram.GetGameManager().Unload();
+            }
+        }
+
+        /// <summary>
+        /// Gets the next spot to move.
+        /// </summary>
+        /// <param name="location">The location we're at.</param>
+        /// <param name="direction">The direction to move.</param>
+        /// <returns></returns>
+        private MapLocation GetNextMoveSpot(MapLocation location, Direction direction) {
+            int row = location.GetRow();
+            int col = location.GetColumn();
+            switch (direction)  {
+                case Direction.NORTH:
+                    if (col - 1 < 0) {
+                        return null;
+                    }
+                   return Map[row, col - 1];
+                case Direction.SOUTH:
+                    if (col + 1 >= GetColumnLength())  {
+                        return null;
+                    }
+                    return Map[row, col + 1];
+                case Direction.EAST:
+                    if (row + 1 >= GetRowLength()) {
+                        return null;
+                    }
+                     return Map[row + 1, col];
+                case Direction.WEST:
+                    if (row - 1 < 0) {
+                        return null;
+                    }
+                    return Map[row - 1, col];
+            }
+            return null;
         }
 
         /// <summary>
@@ -151,6 +268,11 @@ namespace Sokoban_Assignment.src.sokoban.game {
             return null;
         }
 
+        /// <summary>
+        /// CHecks if an entity type exists on the Map.
+        /// </summary>
+        /// <param name="type">The entity type to check.</param>
+        /// <returns>True if entity is found.</returns>
         public Boolean HasEntity(EntityType type) {
             for (int row = 0; row < GetRowLength(); row++) {
                 for (int col = 0; col < GetColumnLength(); col++) {
@@ -164,14 +286,26 @@ namespace Sokoban_Assignment.src.sokoban.game {
             return false;
         }
 
+        /// <summary>
+        /// Gets the Row length.
+        /// </summary>
+        /// <returns>The length of the row.</returns>
         public int GetRowLength() {
             return Map.GetLength(0);
         }
 
+        /// <summary>
+        /// Gets the Column length.
+        /// </summary>
+        /// <returns>The length of the column.</returns>
         public int GetColumnLength() {
             return Map.GetLength(1);
         }
 
+        /// <summary>
+        /// Gets the Array of MapLocation.
+        /// </summary>
+        /// <returns>The Array of MapLocation.</returns>
         public MapLocation[,] GetMap() {
             return Map;
         }

@@ -2,6 +2,7 @@
 using Sokoban_Assignment.src.sokoban.game.entity.endpoint;
 using Sokoban_Assignment.src.sokoban.game.entity.hero;
 using Sokoban_Assignment.src.sokoban.game.entity.wall;
+using Sokoban_Assignment.src.sokoban.game.map;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,6 +17,11 @@ namespace Sokoban_Assignment.src.sokoban.game.entity {
     public abstract class Entity {
 
         /// <summary>
+        /// The Map Location of the entity.
+        /// </summary>
+        private MapLocation location;
+
+        /// <summary>
         /// Draws the Entity Graphics.
         /// </summary>
         /// <param name="g">The graphics instance being used.</param>
@@ -27,6 +33,22 @@ namespace Sokoban_Assignment.src.sokoban.game.entity {
         /// </summary>
         /// <returns>The EntityType.</returns>
         public abstract EntityType GetEntityType();
+
+        /// <summary>
+        /// Sets the Map Location.
+        /// </summary>
+        /// <param name="location">The location to set.</param>
+        public void SetLocation(MapLocation location)  {
+            this.location = location;
+        }
+
+        /// <summary>
+        /// Gets the Map Location.
+        /// </summary>
+        /// <returns>The Map Location.</returns>
+        public MapLocation GetLocation() {
+            return location;
+        }
 
         /// <summary>
         /// Gets a new Entity instance by the entity type index.

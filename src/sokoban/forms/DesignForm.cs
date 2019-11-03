@@ -59,7 +59,13 @@ namespace Sokoban_Assignment {
                     return;
                 }
             }
-            SokobanProgram.GetGameManager().CreateMap((int) RowCountButton.Value, (int) ColumnCountButton.Value);
+            int rows = (int)RowCountButton.Value;
+            int columns = (int)ColumnCountButton.Value;
+            if (rows > 27 || columns > 16)   {
+                MessageBox.Show("You can't have more than 27 rows or more than 16 columns.");
+                return;
+            }
+            SokobanProgram.GetGameManager().CreateMap(rows, columns);
             Invalidate();
         }
 
@@ -175,7 +181,8 @@ namespace Sokoban_Assignment {
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
         private void ExitToolStripMenuItem_Click_1(object sender, EventArgs e) {
-            
+            SokobanProgram.GetGameManager().Unload();
+            SokobanProgram.OpenGameState(GameState.SELECTION);
         }
 
         /// <summary>

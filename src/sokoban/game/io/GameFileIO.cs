@@ -1,4 +1,5 @@
 ﻿using Sokoban_Assignment.src.sokoban.game.entity;
+using Sokoban_Assignment.src.sokoban.game.entity.hero;
 using Sokoban_Assignment.src.sokoban.game.map;
 using System;
 using System.Collections.Generic;
@@ -97,6 +98,10 @@ namespace Sokoban_Assignment.src.sokoban.game.io {
                                         if (entity == null) {
                                             Console.WriteLine("Error reading entity opcode for " + tokens[i] + ", entityIndex=" + entityIndex);
                                             continue;
+                                        }
+                                        if (SokobanProgram.GetGameManager().GetGameState() == GameState.PLAY && types[entityId] == EntityType.HERO) {
+                                            SokobanProgram.GetGameManager().SetHero((Hero) entity);
+                                            Console.WriteLine("Set Hero Instance in Game Manager");
                                         }
                                         Console.WriteLine("Adding entity to " + row + ", " + col + ", " + entity);
                                         SokobanProgram.GetGameManager().GetGameMap().GetMap()[row, col].AddEntity(entity);

@@ -18,7 +18,7 @@ namespace Sokoban_Assignment.src.sokoban.game.entity.endpoint {
         /// <param name="g">The graphics instance being used.</param>
         /// <param name="rectangle">The rectangle we're drawing inside of.</param>
         public override void Draw(Graphics g, Rectangle rectangle) {
-            g.DrawImage(Properties.Resources.EndPoint_Red, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+            g.DrawImage(Properties.Resources.EndPoint_Yellow, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
 
         /// <summary>

@@ -10,3 +10,14 @@ C:\Users\USER\source\repos\Game Prog\Sokoban Assignment\obj\Debug\Sokoban Assign
 C:\Users\USER\source\repos\Game Prog\Sokoban Assignment\obj\Debug\Sokoban_Assignment.DesignForm.resources
 C:\Users\USER\source\repos\Game Prog\Sokoban Assignment\obj\Debug\Sokoban_Assignment.PlayForm.resources
 C:\Users\USER\source\repos\Game Prog\Sokoban Assignment\obj\Debug\Sokoban Assignment.csprojAssemblyReference.cache
+Z:\Development\C#\Game Development\Sokoban-Assignment\bin\Debug\Sokoban Assignment.exe.config
+Z:\Development\C#\Game Development\Sokoban-Assignment\bin\Debug\Sokoban Assignment.exe
+Z:\Development\C#\Game Development\Sokoban-Assignment\bin\Debug\Sokoban Assignment.pdb
+Z:\Development\C#\Game Development\Sokoban-Assignment\obj\Debug\Sokoban Assignment.csprojAssemblyReference.cache
+Z:\Development\C#\Game Development\Sokoban-Assignment\obj\Debug\Sokoban_Assignment.DesignForm.resources
+Z:\Development\C#\Game Development\Sokoban-Assignment\obj\Debug\Sokoban_Assignment.PlayForm.resources
+Z:\Development\C#\Game Development\Sokoban-Assignment\obj\Debug\Sokoban_Assignment.Properties.Resources.resources
+Z:\Development\C#\Game Development\Sokoban-Assignment\obj\Debug\Sokoban_Assignment.SelectionForm.resources
+Z:\Development\C#\Game Development\Sokoban-Assignment\obj\Debug\Sokoban Assignment.csproj.GenerateResource.cache
+Z:\Development\C#\Game Development\Sokoban-Assignment\obj\Debug\Sokoban Assignment.exe
+Z:\Development\C#\Game Development\Sokoban-Assignment\obj\Debug\Sokoban Assignment.pdb

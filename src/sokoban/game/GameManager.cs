@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sokoban_Assignment.src.sokoban.game.entity.hero;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,12 +16,17 @@ namespace Sokoban_Assignment.src.sokoban.game {
         /// <summary>
         /// Represents the current state of the game.
         /// </summary>
-        private GameState GameState;
+        private GameState gameState;
 
         /// <summary>
         /// Represents the GameMap used for either designing or playing.
         /// </summary>
-        private GameMap GameMap;
+        private GameMap gameMap;
+
+        /// <summary>
+        /// Represents the Hero instance used while playing.
+        /// </summary>
+        private Hero hero;
 
         /// <summary>
         /// Creates a map based off a number of rows and columns.
@@ -28,7 +34,20 @@ namespace Sokoban_Assignment.src.sokoban.game {
         /// <param name="rows">The amount of rows.</param>
         /// <param name="columns">The amount of columns.</param>
         public void CreateMap(int rows, int columns) {
-            GameMap = new GameMap(rows, columns);
+            gameMap = new GameMap(rows, columns);
+        }
+
+        /// <summary>
+        /// Unloads the Game Manager.
+        /// </summary>
+        public void Unload() {
+            gameMap = null;
+            hero = null;
+            if (gameState == GameState.PLAY)  {
+                PlayForm playForm = (PlayForm)SokobanProgram.getFormFromState(GameState.PLAY);
+                playForm.numberOfPushesLabel.Text = "Number of Pushes: 0";
+                playForm.numberOfMovesLabel.Text = "Number of Moves: 0";
+            }
         }
 
         /// <summary>
@@ -36,7 +55,23 @@ namespace Sokoban_Assignment.src.sokoban.game {
         /// </summary>
         /// <param name="gameState">The game state to set.</param>
         public void SetGameState(GameState gameState) {
-            this.GameState = gameState;
+            this.gameState = gameState;
+        }
+
+        /// <summary>
+        /// Sets the Hero instance.
+        /// </summary>
+        /// <param name="hero">The hero instance.</param>
+        public void SetHero(Hero hero) {
+            this.hero = hero;
+        }
+
+        /// <summary>
+        /// Gets the Heroo Instance.
+        /// </summary>
+        /// <returns>The Hero.</returns>
+        public Hero GetHero() {
+            return hero;
         }
 
         /// <summary>
@@ -44,7 +79,7 @@ namespace Sokoban_Assignment.src.sokoban.game {
         /// </summary>
         /// <returns>True if created, false if not.</returns>
         public bool IsMapCreated() {
-            return GameMap != null;
+            return gameMap != null;
         }
 
         /// <summary>
@@ -52,7 +87,7 @@ namespace Sokoban_Assignment.src.sokoban.game {
         /// </summary>
         /// <returns>The Game State.</returns>
         public GameState GetGameState()  {
-            return GameState;
+            return gameState;
         }
         
         /// <summary>
@@ -60,7 +95,7 @@ namespace Sokoban_Assignment.src.sokoban.game {
         /// </summary>
         /// <returns>The Game Map.</returns>
         public GameMap GetGameMap() {
-            return GameMap;
+            return gameMap;
         }
 
     }

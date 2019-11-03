@@ -25,10 +25,22 @@ namespace Sokoban_Assignment.src.sokoban.game.map {
         private Rectangle Rectangle;
 
         /// <summary>
+        /// The row index.
+        /// </summary>
+        private int row;
+
+        /// <summary>
+        /// The column index.
+        /// </summary>
+        private int column;
+
+        /// <summary>
         /// Constructa a new MapLocation.
         /// </summary>
         /// <param name="rectangle">The rectangle of the location.</param>
-        public MapLocation(Rectangle rectangle) {
+        public MapLocation(int row, int column, Rectangle rectangle) {
+            this.row = row;
+            this.column = column;
             this.Rectangle = rectangle;
         }
 
@@ -37,7 +49,23 @@ namespace Sokoban_Assignment.src.sokoban.game.map {
         /// </summary>
         /// <param name="entity"></param>
         public void AddEntity(Entity entity) {
+            entity.SetLocation(this);
             Entitys.Add(entity);
+        }
+
+        /// <summary>
+        /// Checks if the map location has an entity type.
+        /// </summary>
+        /// <param name="type">The entity type.</param>
+        /// <returns>True if found.</returns>
+        public bool HasEntityType(EntityType type) {
+            foreach (Entity e in Entitys) {
+                if (e.GetEntityType() == type)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -47,6 +75,7 @@ namespace Sokoban_Assignment.src.sokoban.game.map {
         /// <returns>True if removed else False.</returns>
         public bool RemoveEntity(Entity entity) {
             if (Entitys.Contains(entity)) {
+                entity.SetLocation(null);
                 return Entitys.Remove(entity);
             }
             return false;
@@ -73,6 +102,22 @@ namespace Sokoban_Assignment.src.sokoban.game.map {
         /// <returns>The entity list.</returns>
         public List<Entity> GetEntitys() {
             return Entitys;
+        }
+
+        /// <summary>
+        /// Gets the Row index.
+        /// </summary>
+        /// <returns>The Row index.</returns>
+        public int GetRow() {
+            return row;
+        }
+
+        /// <summary>
+        /// Gets the Column index.
+        /// </summary>
+        /// <returns>The column index.</returns>
+        public int GetColumn() {
+            return column;
         }
 
         /// <summary>
